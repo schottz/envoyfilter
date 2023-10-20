@@ -14,6 +14,6 @@ for ns in $namespaces; do
     kubectl get namespace $ns -o json > namespace.json
     jq 'del(.metadata.finalizers)' namespace.json > temp.json
     jq 'del(.spec)' temp.json > namespace.json
-    kubectl replace --raw "/api/v1/namespaces/$ns/finalize" -f ./namespace.json
+    r=$(kubectl replace --raw "/api/v1/namespaces/$ns/finalize" -f ./namespace.json)
     echo "Namespace ${ns} deleted."
 done
